@@ -1,20 +1,25 @@
 CC=clang
-CFLAGS=-Wall
 
 .PHONY : all
-all: 1a_1 1a_2
+all: 1a_1.bin 1a_2.bin 1a_3.bin 1b_1.bin
 
-1a_1 : 1a_1.o
-	$(CC) -o 1a_1.bin 1a_1.o
+1a_1.bin : 1a_1.o
+1a_2.bin : 1a_2.o
+1a_3.bin : 1a_3.o
 
-1a_2 : 1a_2.o
-	$(CC) -o 1a_2.bin 1a_2.o
+1b_1.bin : 1b_1.o
+
+%.bin: %.o
+	$(CC) -o out/$@ build/$<
 
 1a_1.o : 1a_1.c
-	$(CC) -c 1a_1.c
-
 1a_2.o : 1a_2.c
-	$(CC) -c 1a_2.c
+1a_3.o : 1a_3.c
+
+1b_1.o : 1b_1.c
+
+%.o: %.c
+	$(CC) -c $< -o build/$@
 
 clean:
-	rm *.bin *.o
+	rm out/*.bin build/*.o
